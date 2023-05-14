@@ -4,8 +4,9 @@ require([
     "esri/views/MapView",
     "esri/widgets/ScaleBar",
     "esri/widgets/Legend",
-    "esri/widgets/Home"
-], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home) {
+    "esri/widgets/Home",
+    "esri/widgets/LayerList"
+], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home, LayerList) {
     esriConfig.apiKey = "AAPK2b8b0de0d4984515a672b18ad40b9e8b6TP9ai3QVkOfvsWzaN5IjP3dULNRrjYyzK1bc_z4voYXPkTawiugtOCZYXkAThQ7"
 
     const webMap = new WebMap({
@@ -40,6 +41,27 @@ require([
     });
 
     view.ui.add(scaleBar, "bottom-right");
+
+    view.ui.add("layerList-btn", "top-right");
+
+    const layerList = new LayerList({
+        view: view
+    });
+
+    view.ui.add(layerList, "top-right");
+
+    document
+    .getElementById("layerList-btn")
+    .addEventListener("click", function() {
+        toggleButton()
+    })
+
+    function toggleButton () {
+        const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
+        let currentProp = layerListEl.style.getPropertyValue("display");
+
+        layerListEl.style.setProperty("display", currentProp == "block" ? "none" : "block");
+    }
 
 
 
