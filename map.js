@@ -5,8 +5,10 @@ require([
     "esri/widgets/ScaleBar",
     "esri/widgets/Legend",
     "esri/widgets/Home",
-    "esri/widgets/LayerList"
-], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home, LayerList) {
+    "esri/widgets/LayerList",
+    "esri/widgets/BasemapToggle",
+    "esri/widgets/BasemapGallery"
+], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home, LayerList, BasemapToggle, BasemapGallery) {
     esriConfig.apiKey = "AAPK2b8b0de0d4984515a672b18ad40b9e8b6TP9ai3QVkOfvsWzaN5IjP3dULNRrjYyzK1bc_z4voYXPkTawiugtOCZYXkAThQ7"
 
     const webMap = new WebMap({
@@ -42,7 +44,28 @@ require([
 
     view.ui.add(scaleBar, "bottom-right");
 
+    view.ui.add("basemap-btn", "top-right");
+    
     view.ui.add("layerList-btn", "top-right");
+
+    const basemapToggle = new BasemapToggle({
+        view: view,
+        nextBasemap: "arcgis-imagery"
+    });
+
+    const basemapGallery = new BasemapGallery({
+        view: view,
+        source: {
+            query: {
+
+            }
+        },
+        
+    })
+
+    view.ui.add(basemapGallery, "top-right");
+
+    view.ui.add(basemapToggle, "bottom-right");
 
     const layerList = new LayerList({
         view: view
@@ -53,14 +76,31 @@ require([
     document
     .getElementById("layerList-btn")
     .addEventListener("click", function() {
-        toggleButton()
+        toggleButton("layerList");
     })
 
-    function toggleButton () {
-        const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
-        let currentProp = layerListEl.style.getPropertyValue("display");
+    document
+    .getElementById("basemap-btn")
+    .addEventListener("click", function(){
+        toggleButton("gallery");
+    })
 
-        layerListEl.style.setProperty("display", currentProp == "block" ? "none" : "block");
+    function toggleButton (item) {
+        const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
+        const galleryEl = document.getElementsByClassName("esri-basemap-gallery")[0];
+        let currentProp;
+
+        if(item == "layerList") {
+            currentProp = layerListEl.style.getPropertyValue("display");
+            layerListEl.style.setProperty("display", currentProp == "block" ? "none" : "block");
+            galleryEl.style.setProperty("display", "none");            
+
+        } else if(item == "gallery") {
+            currentProp = galleryEl.style.getPropertyValue("display");
+            galleryEl.style.setProperty("display", currentProp == "block" ? "none" : "block");
+            layerListEl.style.setProperty("display", "none");
+
+        }
     }
 
 
