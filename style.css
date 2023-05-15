@@ -8,6 +8,7 @@ body,
 }
 #layerList-btn, #basemap-btn {
     padding: 6px;
+    cursor: pointer;
 }
 
 div.esri-component.esri-layer-list.esri-widget.esri-widget--panel {
@@ -17,8 +18,9 @@ div.esri-component.esri-layer-list.esri-widget.esri-widget--panel {
 
 .esri-basemap-gallery {
     display: none;
-    position: absolute;
     top: 40px;
+    position: absolute;
+   
 }
 
 

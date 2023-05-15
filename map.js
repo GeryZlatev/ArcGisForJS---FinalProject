@@ -7,8 +7,9 @@ require([
     "esri/widgets/Home",
     "esri/widgets/LayerList",
     "esri/widgets/BasemapToggle",
-    "esri/widgets/BasemapGallery"
-], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home, LayerList, BasemapToggle, BasemapGallery) {
+    "esri/widgets/BasemapGallery",
+    "esri/widgets/Search"
+], function(esriConfig, WebMap, MapView, ScaleBar,Legend, Home, LayerList, BasemapToggle, BasemapGallery, Search) {
     esriConfig.apiKey = "AAPK2b8b0de0d4984515a672b18ad40b9e8b6TP9ai3QVkOfvsWzaN5IjP3dULNRrjYyzK1bc_z4voYXPkTawiugtOCZYXkAThQ7"
 
     const webMap = new WebMap({
@@ -84,6 +85,12 @@ require([
     .addEventListener("click", function(){
         toggleButton("gallery");
     })
+
+    const searchWidget = new Search({
+        view: view
+    })
+
+    view.ui.add(searchWidget, "top-left")
 
     function toggleButton (item) {
         const layerListEl = document.getElementsByClassName("esri-layer-list")[0];
